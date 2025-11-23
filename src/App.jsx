@@ -1,14 +1,19 @@
 import { Accordion, Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
+import Accordionn from "./components/Accordionn";
 
 function App() {
+  const [question, setQuestion] = useState("");
+  const [answar, setAnswar] = useState("");
+  const [according, setAccording] = useState([]);
 
-  
-
-
-
-
+  const handlesubmit = () => {
+    setAccording([...according, { question, answar }]);
+    setAnswar("");
+    setQuestion("");
+  };
 
   return (
     <>
@@ -16,32 +21,36 @@ function App() {
         <Row className="d-flex justify-content-center align-items-center m-auto">
           <Col>Frequently Asked Questions and Answers</Col>
           <Col className=" d-flex gap-2">
-            <Form.Control type="text" placeholder="Large text" />
-            <Form.Control type="text" placeholder="Large text" />
+            <Form.Control
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              type="text"
+              placeholder="Question"
+            />
+            <Form.Control
+              value={answar}
+              onChange={(e) => setAnswar(e.target.value)}
+              type="text"
+              placeholder="Answar"
+            />
           </Col>
           <Col>
-            <Button>submit</Button>
+            <Button onClick={handlesubmit}>submit</Button>
           </Col>
         </Row>
 
         <Row>
-          <Col className=" mt-5">
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Accordion Item #1</Accordion.Header>
-                <Accordion.Body>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          </Col>
+          {according.length > 0 ? (
+            <Col className=" mt-5">
+              {according?.map((item, index) => {
+                return <Accordionn key={index} according={item} />;
+              })}
+            </Col>
+          ) : (
+            <Col className=" pt-5 text-center">
+              <p>No question yet</p>
+            </Col>
+          )}
         </Row>
       </Container>
     </>
