@@ -15,6 +15,15 @@ function App() {
     setQuestion("");
   };
 
+  const deleteAcc = (accIndex) => {
+    const filltedAcc = according.filter((_, index) => index !== accIndex);
+    setAccording(filltedAcc);
+  };
+
+  const deleteAll = () => {
+    setAccording([]);
+  };
+
   return (
     <>
       <Container className=" py-5 fw-bold fs-5">
@@ -41,10 +50,21 @@ function App() {
 
         <Row>
           {according.length > 0 ? (
-            <Col className=" mt-5">
+            <Col className=" mt-5  ">
               {according?.map((item, index) => {
-                return <Accordionn key={index} according={item} />;
+                return (
+                  <Accordionn
+                    key={index}
+                    according={item}
+                    deleteAcc={deleteAcc}
+                    index={index}
+                  />
+                );
               })}
+
+              <Button className="mt-5 d-block m-auto w-50" onClick={deleteAll}>
+                delete all
+              </Button>
             </Col>
           ) : (
             <Col className=" pt-5 text-center">
