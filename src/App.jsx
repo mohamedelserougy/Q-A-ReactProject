@@ -3,16 +3,39 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import Accordionn from "./components/Accordionn";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const [question, setQuestion] = useState("");
   const [answar, setAnswar] = useState("");
   const [according, setAccording] = useState([]);
 
+  const notify = (message, type) => {
+    let progressColor;
+    switch (type) {
+      case "success":
+        progressColor = "green";
+        break;
+      case "error":
+        progressColor = "red";
+        break;
+    }
+
+    toast(message, {
+      type: type,
+      progressStyle: { background: progressColor },
+    });
+  };
+
   const handlesubmit = () => {
-    setAccording([...according, { question, answar }]);
-    setAnswar("");
-    setQuestion("");
+    if (answar && question) {
+      setAccording([...according, { question, answar }]);
+      notify("Added successfully", "success");
+      setAnswar("");
+      setQuestion("");
+    } else {
+      notify("data must be complete.", "error");
+    }
   };
 
   const deleteAcc = (accIndex) => {
@@ -72,6 +95,12 @@ function App() {
             </Col>
           )}
         </Row>
+        <ToastContainer
+          autoClose={2000}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
       </Container>
     </>
   );
