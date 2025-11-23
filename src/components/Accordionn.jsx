@@ -10,6 +10,7 @@ const Accordionn = ({ according, deleteAcc, index }) => {
           <Accordion.Body className=" d-flex justify-content-between">
             <p>{according.answar}</p>
             <Button
+            variant="danger"
               onClick={() => {
                 deleteAcc(index);
               }}

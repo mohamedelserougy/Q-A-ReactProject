@@ -1,9 +1,11 @@
-import { Accordion, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import Accordionn from "./components/Accordionn";
 import { ToastContainer, toast } from "react-toastify";
+import QuestionForm from "./components/QuestionForm";
+import Toasts from "./components/Toasts";
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -41,35 +43,24 @@ function App() {
   const deleteAcc = (accIndex) => {
     const filltedAcc = according.filter((_, index) => index !== accIndex);
     setAccording(filltedAcc);
+    notify("Deleted successfully", "success");
   };
 
   const deleteAll = () => {
     setAccording([]);
+    notify("Deleted successfully", "success");
   };
 
   return (
     <>
       <Container className=" py-5 fw-bold fs-5">
-        <Row className="d-flex justify-content-center align-items-center m-auto">
-          <Col>Frequently Asked Questions and Answers</Col>
-          <Col className=" d-flex gap-2">
-            <Form.Control
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              type="text"
-              placeholder="Question"
-            />
-            <Form.Control
-              value={answar}
-              onChange={(e) => setAnswar(e.target.value)}
-              type="text"
-              placeholder="Answar"
-            />
-          </Col>
-          <Col>
-            <Button onClick={handlesubmit}>submit</Button>
-          </Col>
-        </Row>
+        <QuestionForm
+          question={question}
+          answar={answar}
+          setQuestion={setQuestion}
+          setAnswar={setAnswar}
+          handlesubmit={handlesubmit}
+        />
 
         <Row>
           {according.length > 0 ? (
@@ -85,7 +76,11 @@ function App() {
                 );
               })}
 
-              <Button className="mt-5 d-block m-auto w-50" onClick={deleteAll}>
+              <Button
+                className="mt-5 d-block m-auto w-50"
+                variant="danger"
+                onClick={deleteAll}
+              >
                 delete all
               </Button>
             </Col>
@@ -95,12 +90,7 @@ function App() {
             </Col>
           )}
         </Row>
-        <ToastContainer
-          autoClose={2000}
-          newestOnTop={false}
-          closeOnClick
-          pauseOnHover
-        />
+        <Toasts />
       </Container>
     </>
   );
